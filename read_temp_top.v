@@ -18,7 +18,7 @@ module  read_temp_top (
 	wire 	[11:0]	adc_dout;
 	wire  [31:0] sequencer_csr_writedata;
 
-assign sequencer_csr_writedata = 32'b0;
+assign sequencer_csr_writedata = 32'h00000003;
 
 // instantiate pll
 	altpll1 u0 (
