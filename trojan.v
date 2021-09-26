@@ -13,7 +13,7 @@ module  trojan (
 );
 
 
-    assign seven_seg = (temp <= 3643) ? 7'b1001001 : 7'b1111111; // 3643 is the value of 40C
+    assign seven_seg = (temp <= 3625) ? 7'b1001000 : 7'b1111111; // 3643 is the value of 50C
                                                                 // seven 7 displays H or is off if condition is not met
 
     
