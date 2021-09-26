@@ -6,7 +6,7 @@
 //	
 `timescale 1ns/1ns
 
-module  temp_to_led_fsm ( 
+module  temp_to_led ( 
 	input				clk,
 	input				rst,
 	output reg	[7:0]	led
