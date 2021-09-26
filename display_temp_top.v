@@ -46,4 +46,11 @@ wire 	[11:0]	adc_dout;
 
 
 // instantiate ram
+	ram1 U3(
+        .address(0),
+        .clock(clk),
+        .data(adc_dout),
+        .wren(adc_data_valid),
+        .q());
+
 
