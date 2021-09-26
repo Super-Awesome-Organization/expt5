@@ -22,6 +22,7 @@ module  display_temp_top (
 	wire			adc_data_valid;
 	wire 	[11:0]	adc_dout;
 	wire 	[31:0] 	sequencer_csr_writedata;
+	wire 	[11:0]	adc_dout_reg;
 
 	assign sequencer_csr_writedata = 32'h00000003;
 
@@ -58,12 +59,12 @@ module  display_temp_top (
 		.clock(clk),			// system clock
 		.data(adc_dout),		// ram write data
 		.wren(adc_data_valid),	// ram write enable
-		.q());					
+		.q(adc_dout_reg));					
 
 
 	// instantiate temp_to_led
 	temp_to_led U3 ( 
-		.adc_dout(adc_dout),	// adc digital temperature data
+		.adc_dout(adc_dout_reg),	// adc digital temperature data
 		.led(led));				// led data bus to display temp range
         
 endmodule

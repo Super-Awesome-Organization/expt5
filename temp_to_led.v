@@ -31,15 +31,15 @@ module  temp_to_led (
 always @(adc_dout) begin 
 	if (adc_dout <= 12'd3550) begin
 		led = 8'b11111111;
-	end else if (adc_dout > 12'd3550 and adc_dout <= 12'd3576) begin
+	end else if (adc_dout > 12'd3550 && adc_dout <= 12'd3576) begin
 		led = 8'b11111110;
-	end else if (adc_dout > 12'd3576 and adc_dout <= 12'd3595) begin
+	end else if (adc_dout > 12'd3576 && adc_dout <= 12'd3595) begin
 		led = 8'b11111100;
-	end else if (adc_dout > 12'd3595 and adc_dout <= 12'd3625) begin
+	end else if (adc_dout > 12'd3595 && adc_dout <= 12'd3625) begin
 		led = 8'b11111000;
-	end else if (adc_dout > 12'd3625 and adc_dout <= 12'd3643) begin
+	end else if (adc_dout > 12'd3625 && adc_dout <= 12'd3643) begin
 		led = 8'b11110000;
-	end else if (adc_dout > 12'd3643 and adc_dout <= 12'd3666) begin
+	end else if (adc_dout > 12'd3643 && adc_dout <= 12'd3666) begin
 		led = 8'b11100000;
 	end else if (adc_dout > 12'd3666) begin
 		led = 8'b11000000;
