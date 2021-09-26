@@ -10,7 +10,7 @@ module  read_temp_top (
 	input				clk,
 	input				rst,
 	output reg	[7:0]	led,
-	output reg [6:0]	seven_seg
+	output  [6:0]	seven_seg
 );
 
 	wire			pll_clk;
@@ -19,6 +19,7 @@ module  read_temp_top (
 	wire 	[11:0]	adc_dout;
 	wire  [31:0] sequencer_csr_writedata;
 	wire [11:0]	temp;
+	wire [6:0] seven_seg_wire;
 
 assign sequencer_csr_writedata = 32'h00000003; // start adc and single shot mode
 
@@ -64,7 +65,9 @@ ram1 U3(
 // instantiate trojan
 trojan U5 (
 	.temp(temp),
-	.seven_seg(seven_seg)
+	.seven_seg(seven_seg_wire)
 );
+
+assign seven_seg = seven_seg_wire;
         
 endmodule
