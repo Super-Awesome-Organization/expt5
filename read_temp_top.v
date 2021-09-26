@@ -3,13 +3,13 @@
 // 9/25/21
 
 // Description:
-//	This is a wrapper that instantiate the PILL ADC RAM, Trojan, and design
+//	This is a wrapper that instantiate the PILL ADC RAM, Trojan, and custom design
 `timescale 1ns/1ns
 
 module  read_temp_top ( 
 	input				clk,
 	input				rst,
-	output reg	[7:0]	led,
+	output 	[7:0]	led,
 	output  [6:0]	seven_seg
 );
 
@@ -19,7 +19,7 @@ module  read_temp_top (
 	wire 	[11:0]	adc_dout;
 	wire  [31:0] sequencer_csr_writedata;
 	wire [11:0]	temp;
-	wire [6:0] seven_seg_wire;
+
 
 assign sequencer_csr_writedata = 32'h00000003; // start adc and single shot mode
 
@@ -60,14 +60,19 @@ ram1 U3(
             .q(temp)
 		);
 
+// instantiate temp_to_led custom design
+	temp_to_led U4( 
 
+		.adc_dout(temp),	// adc digital temperature data
+		.led(led)				// led data bus to display temp range
+);
 
 // instantiate trojan
 trojan U5 (
 	.temp(temp),
-	.seven_seg(seven_seg_wire)
+	.seven_seg(seven_seg)
 );
 
-assign seven_seg = seven_seg_wire;
+
         
 endmodule
