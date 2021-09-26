@@ -43,6 +43,8 @@ always @(adc_dout) begin
 		led = 8'b11100000;
 	end else if (adc_dout > 12'd3666) begin
 		led = 8'b11000000;
+	end else begin
+		led = 8'b00000000;
 	end
 end
         
