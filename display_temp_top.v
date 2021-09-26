@@ -1,9 +1,14 @@
 // Group 2: Raj Patel, Zachary Rouviere, Evan Waxman
-// Experiement 5 Part 1
+// Experiement 5 Part 2
 // 9/24/21
 
 // Description:
-//	
+//	This top level module instantiates the FPGAs PLL, ADC temperature
+//	module, RAM, and temp_to_led combinational module. The ADC is
+//	operated using the PLL clock to read on chip temperature data,
+//	convert it to digital data, and sends that data to the the internal
+//	RAM to be viewed in quartus in real time, and also to the board's
+//	led array to visually see the temperature increasing and decreasing.
 `timescale 1ns/1ns
 
 module  display_temp_top ( 
@@ -16,20 +21,20 @@ module  display_temp_top (
 	wire			pll_lock;
 	wire			adc_data_valid;
 	wire 	[11:0]	adc_dout;
-	wire  [31:0] sequencer_csr_writedata;
+	wire 	[31:0] 	sequencer_csr_writedata;
 
 	assign sequencer_csr_writedata = 32'h00000003;
 
 	// instantiate pll
-	altpll1 u0 (
-		.inclk0(clk),
-		.c0(pll_clk),
-		.locked(pll_lock)
+	altpll1 U0 (
+		.inclk0(clk),		// system clock
+		.c0(pll_clk),		// generated pll clock
+		.locked(pll_lock)	// pll clock lock indicator
 	);
 
 
 	// instantiate adc module
-	adc1 u1 (
+	adc1 U1 (
 		.clock_clk               (clk),      		//          clock.clk
 		.reset_sink_reset_n      (1'b1),      		// //    reset_sink.reset_n
 		.adc_pll_clock_clk       (pll_clk),  		//  adc_pll_clock.clk
@@ -48,11 +53,18 @@ module  display_temp_top (
 
 
 	// instantiate ram
-	ram1 U3(
-		.address(0),
-		.clock(clk),
-		.data(adc_dout),
-		.wren(adc_data_valid),
-		.q());
+	ram1 U2 (
+		.address(0),			// ram write address
+		.clock(clk),			// system clock
+		.data(adc_dout),		// ram write data
+		.wren(adc_data_valid),	// ram write enable
+		.q());					
+
+
+	// instantiate temp_to_led
+	temp_to_led U3( 
+		.adc_dout(adc_dout),	// adc digital temperature data
+		.led(led)				// led data bus to display temp range
+);
         
 endmodule
