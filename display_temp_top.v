@@ -14,7 +14,7 @@
 module  display_temp_top ( 
 	input				clk,
 	input				rst,
-	output reg	[7:0]	led
+	output		[7:0]	led
 );
 
 	wire			pll_clk;
