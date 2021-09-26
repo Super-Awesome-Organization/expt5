@@ -62,9 +62,8 @@ module  display_temp_top (
 
 
 	// instantiate temp_to_led
-	temp_to_led U3( 
+	temp_to_led U3 ( 
 		.adc_dout(adc_dout),	// adc digital temperature data
-		.led(led)				// led data bus to display temp range
-);
+		.led(led));				// led data bus to display temp range
         
 endmodule
