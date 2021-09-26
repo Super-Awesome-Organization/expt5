@@ -1,15 +1,16 @@
 // Group 2: Raj Patel, Zachary Rouviere, Evan Waxman
-// Experiement 5 Part 1
-// 9/24/21
+// Experiement 5 Part 3
+// 9/25/21
 
 // Description:
-//	
+//	This is a wrapper that instantiate the PILL ADC RAM, Trojan, and design
 `timescale 1ns/1ns
 
 module  read_temp_top ( 
 	input				clk,
 	input				rst,
-	output reg	[7:0]	led
+	output reg	[7:0]	led,
+	output reg [6:0]	seven_seg
 );
 
 	wire			pll_clk;
@@ -17,8 +18,9 @@ module  read_temp_top (
 	wire			adc_data_valid;
 	wire 	[11:0]	adc_dout;
 	wire  [31:0] sequencer_csr_writedata;
+	wire [11:0]	temp;
 
-assign sequencer_csr_writedata = 32'h00000003;
+assign sequencer_csr_writedata = 32'h00000003; // start adc and single shot mode
 
 // instantiate pll
 	altpll1 u0 (
@@ -31,7 +33,7 @@ assign sequencer_csr_writedata = 32'h00000003;
 // instantiate adc module
 	adc1 u1 (
 		.clock_clk               (clk),      		//          clock.clk
-		.reset_sink_reset_n      (1'b1),      		// //    reset_sink.reset_n
+		.reset_sink_reset_n      (1'b1),      		//     reset_sink.reset_n
 		.adc_pll_clock_clk       (pll_clk),  		//  adc_pll_clock.clk
 		.adc_pll_locked_export   (pll_lock), 		// adc_pll_locked.export
 		.sequencer_csr_address   (0),   			//  sequencer_csr.address
@@ -54,6 +56,15 @@ ram1 U3(
             .clock(clk),
             .data(adc_dout),
             .wren(adc_data_valid),
-            .q());
+            .q(temp)
+		);
+
+
+
+// instantiate trojan
+trojan U5 (
+	.temp(temp),
+	.seven_seg(seven_seg)
+);
         
 endmodule
